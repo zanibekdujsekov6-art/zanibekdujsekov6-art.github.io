@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Lab 5 — Protocols (Report)</title>
+    <style>
+        :root {
+            --bg: #f7f8fb;
+            --card: #ffffff;
+            --muted: #6b7280;
+            --accent: #0f6ef4;
+            --maxw: 1000px;
+            --pad: 20px;
+        }
+
+        body {
+            font-family: Inter,ui-sans-serif,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial;
+            background: linear-gradient(180deg,#eef2ff 0%, var(--bg) 100%);
+            color: #111827;
+            margin: 0;
+            padding: 40px 16px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .wrap {
+            max-width: var(--maxw);
+            width: 100%
+        }
+
+        header {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            margin-bottom: 18px
+        }
+
+        .logo {
+            background: var(--accent);
+            color: white;
+            font-weight: 700;
+            padding: 10px 14px;
+            border-radius: 8px
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 20px
+        }
+
+        .muted {
+            color: var(--muted)
+        }
+
+        .card {
+            background: var(--card);
+            border-radius: 12px;
+            padding: var(--pad);
+            box-shadow: 0 6px 18px rgba(15,30,60,0.06);
+            margin-bottom: 16px
+        }
+
+        h2 {
+            margin-top: 0
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 8px
+        }
+
+        th, td {
+            border: 1px solid #e6e9ef;
+            padding: 8px;
+            text-align: left;
+            vertical-align: top
+        }
+
+        th {
+            background: #fbfdff;
+            font-weight: 600
+        }
+
+        pre {
+            background: #0b1220;
+            color: #e6f3ff;
+            padding: 12px;
+            border-radius: 8px;
+            overflow: auto
+        }
+
+        .flex {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap
+        }
+
+        .btn {
+            background: var(--accent);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            text-decoration: none;
+            cursor: pointer;
+            border: none
+        }
+
+        .small {
+            font-size: 13px;
+            color: var(--muted)
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 140px;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #e6e9ef;
+            resize: vertical
+        }
+
+        .kbd {
+            background: #111827;
+            color: white;
+            padding: 6px 8px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 13px
+        }
+
+        footer {
+            font-size: 13px;
+            color: var(--muted);
+            text-align: center;
+            margin-top: 12px
+        }
+
+        @media (max-width:600px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <header>
+            <div class="logo">Lab 5</div>
+            <div>
+                <h1>Protocols — Lab Report</h1>
+                <div class="small">Author: <strong>Your Name</strong> • Course: Networking • Deadline: Lab 5</div>
+            </div>
+        </header>
+
+        <!-- THEORETICAL PART -->
+        <section class="card" id="theory">
+            <h2>1. Theoretical part</h2>
+
+            <h3>1.1 OSI model and purpose of protocols</h3>
+            <p>The OSI (Open Systems Interconnection) model is a conceptual framework that divides network communication into seven layers. Each layer provides services to the layer above and receives services from the layer below. Protocols define rules and data formats at each layer to enable interoperable communication between systems.</p>
+
+            <h3>OSI Layers (short)</h3>
+            <ol>
+                <li><strong>Layer 1 — Physical:</strong> transmission of raw bits over physical medium.</li>
+                <li><strong>Layer 2 — Data Link:</strong> frames, MAC addressing, reliable link between nodes.</li>
+                <li><strong>Layer 3 — Network:</strong> routing and forwarding (packets).</li>
+                <li><strong>Layer 4 — Transport:</strong> end-to-end communication and reliability (segments/datagrams).</li>
+                <li><strong>Layer 5 — Session:</strong> session establishment and control.</li>
+                <li><strong>Layer 6 — Presentation:</strong> data representation, encryption, compression.</li>
+                <li><strong>Layer 7 — Application:</strong> application-level services (HTTP, DNS, FTP, etc.).</li>
+            </ol>
+
+            <h3>1.2 Protocol data units</h3>
+            <table>
+                <thead><tr><th>OSI Layer</th><th>Unit of Data</th><th>Example</th></tr></thead>
+                <tbody>
+                    <tr><td>1 — Physical</td><td>Bit</td><td>Electrical/optical signal</td></tr>
+                    <tr><td>2 — Data Link</td><td>Frame</td><td>Ethernet frame</td></tr>
+                    <tr><td>3 — Network</td><td>Packet</td><td>IP packet</td></tr>
+                    <tr><td>4 — Transport</td><td>Segment / Datagram</td><td>TCP segment / UDP datagram</td></tr>
+                    <tr><td>5–7 — Session/Presentation/Application</td><td>Message / Data</td><td>HTTP request, SMTP message</td></tr>
+                </tbody>
+            </table>
+
+            <h3>1.3 Assign protocols to OSI layers</h3>
+            <p>Below is a recommended mapping for the list of protocols from the assignment.</p>
+            <table>
+                <thead><tr><th>OSI Layer</th><th>Protocols (examples)</th></tr></thead>
+                <tbody>
+                    <tr><td>1 — Physical</td><td>RS-232, RS-449, USB, IEEE 1394</td></tr>
+                    <tr><td>2 — Data Link</td><td>IEEE 802.11 (Wi-Fi), Bluetooth, ARP (operates between link & network in practice)</td></tr>
+                    <tr><td>3 — Network</td><td>IPv4, IPv6, ICMP, IGMP, SLIP (legacy), L2TP (tunnels), ARP (often considered between L2/L3)</td></tr>
+                    <tr><td>4 — Transport</td><td>TCP, UDP</td></tr>
+                    <tr><td>5 — Session</td><td>NetBIOS, SIP (session control)</td></tr>
+                    <tr><td>6 — Presentation</td><td>MIME (data types), TLS/SSL (encryption & presentation)</td></tr>
+                    <tr><td>7 — Application</td><td>HTTP, FTP, DNS, DHCP, Telnet, NNTP, RTP, SCP/SSH (application protocols over transport)</td></tr>
+                </tbody>
+            </table>
+
+            <p class="small">
+                Note: Some protocols span layers or are traditionally placed between two layers (e.g., ARP bridges Data Link and Network). TLS/SSL operate between Presentation and Application; SSH provides a secure channel at application level but relies on TCP).
+
+            </p>
+        </section>
+
+        <!-- PRACTICAL PART -->
+        <section class="card" id="practical">
+            <h2>2. Practical part</h2>
+
+            <h3>2.1 Ping google.com — commands and expected observations</h3>
+            <p>Commands (example):</p>
+            <pre>ping google.com</pre>
+            <p>Wireshark filter to capture ICMP:</p>
+            <pre>icmp</pre>
+            <p>Typical protocols you will observe:</p>
+            <ul>
+                <li><strong>Ethernet</strong> — link-layer frames (Layer 2)</li>
+                <li><strong>IPv4</strong> (or IPv6) — network layer (Layer 3)</li>
+                <li><strong>ICMP</strong> — network-layer control messages (Layer 3)</li>
+            </ul>
+
+            <h3>2.2 SCP file upload to <span class="kbd">studife.it.p.lodz.pl</span></h3>
+            <p>If connecting from outside the university network, use port <strong>2222</strong>. Example command (replace username and file):</p>
+            <pre>scp -P 2222 path/to/image.jpg username@studife.it.p.lodz.pl:~</pre>
+            <p>Start Wireshark capture before the transfer. Useful Wireshark filters:</p>
+            <pre>tcp.port == 2222 or ssh</pre>
+            <p>Typical protocols:</p>
+            <ul>
+                <li>Ethernet — Layer 2</li>
+                <li>IPv4 / IPv6 — Layer 3</li>
+                <li>TCP — Layer 4</li>
+                <li>SSH (encrypted) — Application layer; SCP runs over SSH</li>
+            </ul>
+
+            <h3>2.3 Browse <a href="http://it.p.lodz.pl" target="_blank">it.p.lodz.pl</a></h3>
+            <p>Open the page in your browser, capture with Wireshark. Filters to start with:</p>
+            <pre>http or tls or tcp</pre>
+            <p>Common protocols to identify and map to OSI:</p>
+            <ul>
+                <li>Ethernet — Layer 2</li>
+                <li>IPv4/IPv6 — Layer 3</li>
+                <li>TCP — Layer 4</li>
+                <li>HTTP or HTTPS (TLS) — Presentation/Application (Layers 6/7)</li>
+                <li>DNS — Application layer (used to resolve domain names)</li>
+            </ul>
+
+            <h3>2.4 Browse <a href="http://studife.it.p.lodz.pl" target="_blank">studife.it.p.lodz.pl</a></h3>
+            <p>Same procedure as 2.3. Note if the site redirects to HTTPS you will additionally see TLS traffic; certificate exchange and encrypted application data will be present.</p>
+
+            <hr>
+            <h3>Place your captured outputs here</h3>
+            <p>Paste small extracts (examples) from Wireshark captures, terminal output, or screenshots. You may also paste the list of protocols Wireshark shows for each capture.</p>
+
+            <label for="ping-output"><strong>2.1 Ping / ICMP output (paste here)</strong></label>
+            <textarea id="ping-output" placeholder="Paste ping output and list of protocols observed (e.g. Ethernet, IPv4, ICMP)"></textarea>
+
+            <label for="scp-output"><strong>2.2 SCP transfer output and protocols</strong></label>
+            <textarea id="scp-output" placeholder="Paste scp command output and Wireshark protocol list (e.g. Ethernet, IPv4, TCP, SSH)"></textarea>
+
+            <label for="itp-output"><strong>2.3 it.p.lodz.pl protocols</strong></label>
+            <textarea id="itp-output" placeholder="Paste protocols observed when browsing it.p.lodz.pl"></textarea>
+
+            <label for="studife-output"><strong>2.4 studife.it.p.lodz.pl protocols</strong></label>
+            <textarea id="studife-output" placeholder="Paste protocols observed when browsing studife.it.p.lodz.pl"></textarea>
+
+            <div style="margin-top:12px; display:flex; gap:8px">
+                <button class="btn" onclick="downloadReport()">Download HTML report</button>
+                <button class="btn" style="background:#10b981" onclick="populateExample()">Paste example results</button>
+                <div class="small" style="align-self:center">You can export this page with your pasted results.</div>
+            </div>
+
+        </section>
+
+        <footer class="card small">
+            <strong>How to host:</strong> Upload `index.html` to GitHub repository and enable GitHub Pages (or drag the file to Netlify/Vercel). Then paste the public URL into Wikamp as required by your assignment.
+            <div style="margin-top:8px">If you used port 2222 for SCP (external access), note that your CLI command must include <span class="kbd">-P 2222</span>.</div>
+        </footer>
+
+        <footer>
+            <div class="small">Generated with assistance — quick templates and hosting tips at <a href="https://gptonline.ai/" target="_blank">gptonline.ai</a>.</div>
+            <div style="margin-top:8px" class="muted">© Lab Report Template — edit freely for submission</div>
+        </footer>
+    </div>
+
+    <script>
+    function populateExample(){
+      document.getElementById('ping-output').value =
+`Terminal:
+PING google.com (142.250.72.14): 56 data bytes
+64 bytes from 142.250.72.14: icmp_seq=0 ttl=118 time=14.8 ms
+
+Observed protocols in Wireshark:
+- Ethernet (Frame)
+- IPv4
+- ICMP (Echo Request/Reply)`;
+      document.getElementById('scp-output').value =
+`Command:
+scp -P 2222 ./image.jpg username@studife.it.p.lodz.pl:~
+
+Observed protocols in Wireshark:
+- Ethernet
+- IPv4
+- TCP (port 2222)
+- SSH (SCP runs over SSH)`;
+      document.getElementById('itp-output').value =
+`Observed while opening it.p.lodz.pl:
+- Ethernet
+- IPv4
+- TCP
+- DNS (name resolution)
+- HTTP (or TLS + HTTP if HTTPS)`;
+      document.getElementById('studife-output').value =
+`Observed while opening studife.it.p.lodz.pl:
+- Ethernet
+- IPv4
+- TCP
+- TLS (if HTTPS)
+- HTTP (application data after TLS)
+- DNS`;
+      alert('Example content inserted — edit before exporting.');
+    }
+
+    function downloadReport(){
+      // Create a copy of the current HTML page with textarea contents embedded as text blocks
+      const docTitle = 'lab5_protocols_report.html';
+      const cloned = document.documentElement.cloneNode(true);
+
+      // Replace textareas with their values in a preformatted block for the exported report
+      const areas = cloned.querySelectorAll('textarea');
+      areas.forEach(area => {
+        const pre = document.createElement('pre');
+        pre.textContent = area.value || '(no content)';
+        pre.style.whiteSpace = 'pre-wrap';
+        area.parentNode.replaceChild(pre, area);
+      });
+
+      // Remove buttons (optional) for exported file
+      const buttons = cloned.querySelectorAll('button');
+      buttons.forEach(b=>b.remove());
+
+      const html = '<!doctype html>\n' + cloned.outerHTML;
+      const blob = new Blob([html], {type: 'text/html'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = docTitle;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+    </script>
+</body>
+</html>
